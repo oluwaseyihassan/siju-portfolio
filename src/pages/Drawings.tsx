@@ -1,133 +1,82 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, FileText, Ruler, Grid } from "lucide-react";
+import { ArrowLeft, X, ChevronLeft, ChevronRight, Grid } from "lucide-react";
 import { Link } from "react-router-dom";
-import { cadDrawings } from "../data/data";
+import { drawingImages } from "../data/data";
 
 const ArchitecturalDrawings = () => {
-  const drawings = [
-    {
-      id: 1,
-      title: "Modern Office Complex Plans",
-      year: "2024",
-      type: "Floor Plans & Sections",
-      scale: "1:100, 1:50",
-      description:
-        "Comprehensive architectural drawings for a 5-story office complex including floor plans, sections, elevations, and detail drawings.",
-      sheets: "24 Drawing Sheets",
-      project: "Corporate Headquarters",
-      image: cadDrawings[1].src, // CAD Drawing 2
-      drawings: [
-        "Site Plan",
-        "Floor Plans (All Levels)",
-        "Building Sections",
-        "Elevations (All Sides)",
-        "Detail Drawings",
-        "Construction Details",
-      ],
-      tags: ["Floor Plans", "Sections", "Commercial"],
-    },
-    {
-      id: 2,
-      title: "Residential Villa Technical Drawings",
-      year: "2023",
-      type: "Construction Documents",
-      scale: "1:50, 1:20",
-      description:
-        "Complete set of construction drawings for a luxury residential villa including architectural, structural, and MEP coordination.",
-      sheets: "18 Drawing Sheets",
-      project: "Private Villa Estate",
-      image: cadDrawings[8].src, // CAD Drawing 9
-      drawings: [
-        "Architectural Plans",
-        "Structural Details",
-        "MEP Layouts",
-        "Landscape Plans",
-        "Interior Details",
-        "Furniture Layout",
-      ],
-      tags: ["Residential", "Construction", "MEP"],
-    },
-    {
-      id: 3,
-      title: "Educational Facility Blueprints",
-      year: "2023",
-      type: "Schematic Design",
-      scale: "1:200, 1:100",
-      description:
-        "Schematic design drawings for a community learning center with flexible classroom spaces and community areas.",
-      sheets: "15 Drawing Sheets",
-      project: "Community Learning Center",
-      image: cadDrawings[13].src, // CAD Drawing 14
-      drawings: [
-        "Site Analysis",
-        "Conceptual Plans",
-        "Building Sections",
-        "Design Development",
-        "Space Planning",
-        "Accessibility Details",
-      ],
-      tags: ["Education", "Community", "Accessibility"],
-    },
-    {
-      id: 4,
-      title: "Historic Building Renovation Plans",
-      year: "2022",
-      type: "Renovation & Restoration",
-      scale: "1:50, 1:25",
-      description:
-        "Detailed renovation plans for historic building preservation while incorporating modern amenities and accessibility features.",
-      sheets: "21 Drawing Sheets",
-      project: "Heritage Building Restoration",
-      image: cadDrawings[24].src, // CAD Drawing 25
-      drawings: [
-        "Existing Conditions",
-        "Preservation Plans",
-        "New Interventions",
-        "Structural Reinforcement",
-        "Heritage Details",
-        "Modern Adaptations",
-      ],
-      tags: ["Historic", "Renovation", "Preservation"],
-    },
-    {
-      id: 5,
-      title: "Mixed-Use Development Drawings",
-      year: "2022",
-      type: "Master Planning",
-      scale: "1:500, 1:100",
-      description:
-        "Master planning and architectural drawings for a mixed-use development combining residential, commercial, and recreational spaces.",
-      sheets: "32 Drawing Sheets",
-      project: "Urban Mixed-Use Complex",
-      image: cadDrawings[29].src, // CAD Drawing 30
-      drawings: [
-        "Master Plan",
-        "Zoning Studies",
-        "Building Types",
-        "Public Spaces",
-        "Infrastructure",
-        "Phasing Plans",
-      ],
-      tags: ["Mixed-Use", "Master Planning", "Urban"],
-    },
-  ];
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const getTypeColor = (type: string) => {
-    switch (type) {
-      case "Floor Plans & Sections":
-        return "bg-gray-800 text-white";
-      case "Construction Documents":
-        return "bg-gray-600 text-white";
-      case "Schematic Design":
-        return "bg-gray-500 text-white";
-      case "Renovation & Restoration":
-        return "bg-gray-700 text-white";
-      case "Master Planning":
-        return "bg-gray-900 text-white";
-      default:
-        return "bg-gray-400 text-white";
+  // All drawing images for the unified gallery
+  const allDrawingImages = drawingImages.map((image, index) => ({
+    src: image.src,
+    alt: image.alt,
+    title: `Technical Drawing ${index + 1}`,
+    category: getDrawingCategory(index),
+  }));
+
+  function getDrawingCategory(index: number) {
+    const categories = [
+      "Floor Plans",
+      "Elevations",
+      "Sections",
+      "Details",
+      "Site Plans",
+      "Construction Documents",
+      "Schematic Design",
+      "MEP Drawings",
+      "Structural Plans",
+      "Master Planning",
+    ];
+    return categories[index] || "Technical Drawing";
+  }
+
+  const openImageModal = (imageIndex: number) => {
+    setCurrentImageIndex(imageIndex);
+    setSelectedImage(allDrawingImages[imageIndex].src);
+  };
+
+  const closeModal = () => {
+    setSelectedImage(null);
+    setCurrentImageIndex(0);
+  };
+
+  const nextImage = () => {
+    if (currentImageIndex < allDrawingImages.length - 1) {
+      const newIndex = currentImageIndex + 1;
+      setCurrentImageIndex(newIndex);
+      setSelectedImage(allDrawingImages[newIndex].src);
     }
   };
+
+  const prevImage = () => {
+    if (currentImageIndex > 0) {
+      const newIndex = currentImageIndex - 1;
+      setCurrentImageIndex(newIndex);
+      setSelectedImage(allDrawingImages[newIndex].src);
+    }
+  };
+
+  const handleKeyPress = (e: KeyboardEvent) => {
+    if (e.key === "Escape") closeModal();
+    if (e.key === "ArrowRight") nextImage();
+    if (e.key === "ArrowLeft") prevImage();
+  };
+
+  useEffect(() => {
+    if (selectedImage) {
+      document.addEventListener("keydown", handleKeyPress);
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+      document.body.style.overflow = "unset";
+    };
+  }, [selectedImage, currentImageIndex]);
 
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
@@ -153,120 +102,152 @@ const ArchitecturalDrawings = () => {
             </span>
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
               Technical Drawings
-              <span className="block text-gray-900">& Blueprints</span>
+              <span className="block text-gray-900">& Blueprints Gallery</span>
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Explore my collection of architectural drawings, technical
-              blueprints, and construction documents. Each set represents
-              precise technical communication for various project types and
-              phases.
+              Browse through my comprehensive collection of architectural
+              drawings, technical blueprints, and construction documents. Click
+              any image to view in detail and navigate through the complete
+              gallery.
             </p>
+
+            {/* Gallery Stats */}
+            <div className="flex items-center justify-center space-x-6 mt-8">
+              <div className="flex items-center space-x-2 text-gray-600">
+                <Grid className="w-5 h-5" />
+                <span className="font-medium">
+                  {allDrawingImages.length} Technical Drawings
+                </span>
+              </div>
+            </div>
           </div>
         </motion.div>
 
-        {/* Drawings Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 pb-20">
-          {drawings.map((drawing, index) => (
-            <motion.div
-              key={drawing.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.15 }}
-              className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500"
-            >
-              {/* Drawing Preview */}
-              <div className="h-80 bg-gray-100 relative overflow-hidden">
-                <img
-                  src={drawing.image}
-                  alt={drawing.title}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                />
+        {/* Unified Gallery Grid */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="pb-20"
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {allDrawingImages.map((image, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.05 }}
+                className="group cursor-pointer"
+                onClick={() => openImageModal(index)}
+              >
+                <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500">
+                  {/* Image */}
+                  <div className="aspect-square bg-gray-100 relative overflow-hidden">
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
 
-                {/* Drawing Type Badge */}
-                <div className="absolute top-4 right-4">
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs font-medium ${getTypeColor(
-                      drawing.type
-                    )}`}
-                  >
-                    {drawing.type}
-                  </span>
-                </div>
-              </div>
+                    {/* Overlay */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300" />
 
-              {/* Drawing Info */}
-              <div className="p-8">
-                <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-xl font-bold text-gray-900">
-                    {drawing.title}
-                  </h3>
-                  <span className="text-sm text-gray-500 ml-4">
-                    {drawing.year}
-                  </span>
-                </div>
+                    {/* Image Number */}
+                    <div className="absolute top-3 left-3 bg-black/50 text-white px-2 py-1 rounded text-xs font-medium">
+                      {index + 1}
+                    </div>
 
-                <p className="text-gray-600 mb-6 leading-relaxed">
-                  {drawing.description}
-                </p>
-
-                {/* Drawing Details */}
-                <div className="space-y-3 mb-6">
-                  <div className="flex items-center space-x-2 text-sm">
-                    <Ruler className="w-4 h-4 text-gray-500" />
-                    <span className="text-gray-500">Scale:</span>
-                    <span className="text-gray-700 font-medium">
-                      {drawing.scale}
-                    </span>
+                    {/* Category Badge */}
+                    <div className="absolute top-3 right-3 bg-gray-800 text-white px-2 py-1 rounded text-xs font-medium">
+                      {image.category}
+                    </div>
                   </div>
-                  <div className="flex items-center space-x-2 text-sm">
-                    <Grid className="w-4 h-4 text-gray-500" />
-                    <span className="text-gray-500">Total Sheets:</span>
-                    <span className="text-gray-700 font-medium">
-                      {drawing.sheets}
-                    </span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-sm">
-                    <FileText className="w-4 h-4 text-gray-500" />
-                    <span className="text-gray-500">Project:</span>
-                    <span className="text-gray-700 font-medium">
-                      {drawing.project}
-                    </span>
+
+                  {/* Image Info */}
+                  <div className="p-4">
+                    <h3 className="font-semibold text-gray-900 text-sm mb-1">
+                      {image.title}
+                    </h3>
+                    <p className="text-gray-500 text-xs">{image.category}</p>
                   </div>
                 </div>
-
-                {/* Drawing Types */}
-                <div className="mb-6">
-                  <h4 className="text-sm font-semibold text-gray-700 mb-3">
-                    Drawing Types Included:
-                  </h4>
-                  <div className="grid grid-cols-2 gap-2">
-                    {drawing.drawings.map((drawingType, typeIndex) => (
-                      <div
-                        key={typeIndex}
-                        className="text-xs text-gray-600 bg-gray-50 px-2 py-1 rounded"
-                      >
-                        {drawingType}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2">
-                  {drawing.tags.map((tag, tagIndex) => (
-                    <span
-                      key={tagIndex}
-                      className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
       </div>
+
+      {/* Image Modal */}
+      {selectedImage && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4"
+          onClick={closeModal}
+        >
+          <div className="relative max-w-7xl max-h-full">
+            {/* Close Button */}
+            <button
+              onClick={closeModal}
+              className="absolute top-4 right-4 z-10 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            {/* Navigation Arrows */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                prevImage();
+              }}
+              disabled={currentImageIndex === 0}
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                nextImage();
+              }}
+              disabled={currentImageIndex === allDrawingImages.length - 1}
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+
+            {/* Image */}
+            <div className="flex flex-col items-center justify-center max-w-full max-h-full">
+              <img
+                src={selectedImage}
+                alt={allDrawingImages[currentImageIndex].alt}
+                className="max-w-full max-h-[80vh] object-contain"
+                onClick={(e) => e.stopPropagation()}
+              />
+
+              {/* Image Info */}
+              {/* <div className="mt-4 text-center">
+                <h3 className="text-white text-lg font-semibold mb-1">
+                  {allDrawingImages[currentImageIndex].title}
+                </h3>
+                <p className="text-gray-300 text-sm">
+                  {allDrawingImages[currentImageIndex].category}
+                </p>
+              </div> */}
+            </div>
+
+            {/* Image Counter & Navigation Info */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center space-x-4">
+              <div className="bg-white/10 text-white px-4 py-2 rounded-full text-sm">
+                {currentImageIndex + 1} / {allDrawingImages.length}
+              </div>
+              
+            </div>
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 };

@@ -237,3 +237,36 @@ export const cadDrawings = [
         description: "A detailed CAD drawing of a commercial plaza.",
     }
 ]
+
+export const siteImages = [
+    {
+        src: "https://res.cloudinary.com/drxjxycnn/image/upload/v1754666641/site_work.png",
+        alt: "Site Image 1",
+        title: "Site Image 1",
+        description: "A site image showcasing the landscape of a residential area.",
+    },
+    {
+        src: "https://res.cloudinary.com/drxjxycnn/image/upload/v1754666616/site_work_1.png",
+        alt: "Site Image 2",
+        title: "Site Image 2",
+        description: "A site image of a commercial development.",
+    },
+    {
+        src: "https://res.cloudinary.com/drxjxycnn/image/upload/a_90/v1754666610/cad_project_39_padywx.png",
+        alt: "Site Image 3",
+        title: "Site Image 3",
+        description: "A site image of an urban park.",
+    },
+    {
+        src: "https://res.cloudinary.com/drxjxycnn/image/upload/a_90/v1754666599/cad_project_37_u1atfn.png",
+        alt: "Site Image 4",
+        title: "Site Image 4",
+        description: "A site image of a public building.",
+    },
+    {
+        src: "https://res.cloudinary.com/drxjxycnn/image/upload/a_90/v1754666607/cad_project_38_zd5mud.png",
+        alt: "Site Image 5",
+        title: "Site Image 5",
+        description: "A site image of a cultural center.",
+    }
+]

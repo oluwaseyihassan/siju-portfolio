@@ -3,7 +3,7 @@ import { Award, Users, Calendar, Target } from "lucide-react";
 
 const About = () => {
   const stats = [
-    { icon: Calendar, label: "Years Experience", value: "8+" },
+    { icon: Calendar, label: "Years Experience", value: "4+" },
     { icon: Users, label: "Happy Clients", value: "150+" },
     { icon: Target, label: "Projects Completed", value: "200+" },
     { icon: Award, label: "Awards Won", value: "15+" },
