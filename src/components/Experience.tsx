@@ -6,7 +6,7 @@ const Experience = () => {
     {
       period: "2020 - Present",
       position: "Senior Architect & Principal",
-      company: "Adesijuola Architecture Studio",
+      company: "Juristic Architecture Studio",
       location: "Lagos, Nigeria",
       description:
         "Founded and leading an innovative architectural practice specializing in sustainable design and modern residential projects.",
@@ -18,9 +18,9 @@ const Experience = () => {
       ],
     },
     {
-      period: "2018 - 2020",
+      period: "2023 - 2025",
       position: "Project Architect",
-      company: "Metropolitan Design Group",
+      company: "Citec International Estate",
       location: "Abuja, Nigeria",
       description:
         "Led design development and project coordination for large-scale commercial and institutional projects.",
@@ -28,11 +28,10 @@ const Experience = () => {
         "Managed $50M+ in construction projects",
         "Led design team of 6 architects and designers",
         "Reduced project delivery time by 20%",
-        "Won Best Commercial Design Award 2019",
       ],
     },
     {
-      period: "2016 - 2018",
+      period: "2022 - 2023",
       position: "Design Architect",
       company: "Urban Planning Associates",
       location: "Lagos, Nigeria",
@@ -135,7 +134,7 @@ const Experience = () => {
             <span className="block text-gray-900">Journey & Recognition</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Over 8 years of architectural excellence, from innovative design
+            Over 4 years of architectural excellence, from innovative design
             solutions to industry recognition and client satisfaction.
           </p>
         </motion.div>

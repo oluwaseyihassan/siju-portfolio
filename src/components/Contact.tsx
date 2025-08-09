@@ -4,7 +4,7 @@ import {
   Phone,
   MapPin,
   Clock,
-  Linkedin,
+  MessageCircle,
   Instagram,
   Twitter,
 } from "lucide-react";
@@ -20,8 +20,8 @@ const Contact = () => {
     {
       icon: Phone,
       title: "Phone",
-      value: "+234 803 123 4567",
-      link: "tel:+2348031234567",
+      value: "+234 704 816 8939",
+      link: "tel:+2347048168939",
     },
     {
       icon: MapPin,
@@ -39,19 +39,19 @@ const Contact = () => {
 
   const socialLinks = [
     {
-      icon: Linkedin,
-      name: "LinkedIn",
-      url: "https://linkedin.com/in/adekolaadesijuola",
+      icon: MessageCircle,
+      name: "WhatsApp",
+      url: "https://wa.me/2348028433446?text=Hello%20Adekola,%20I%20would%20like%20to%20discuss%20a%20potential%20architectural%20project%20with%20you.",
     },
     {
       icon: Instagram,
       name: "Instagram",
-      url: "https://instagram.com/adekolaadesijuola",
+      url: "https://www.instagram.com/_its_sij",
     },
     {
       icon: Twitter,
       name: "Twitter",
-      url: "https://twitter.com/adekolaadesijuola",
+      url: "https://x.com/sij__u_",
     },
   ];
 

@@ -1,5 +1,12 @@
 import { motion } from "framer-motion";
-import { Building, Mail, Linkedin, Instagram, Twitter, ArrowUp } from "lucide-react";
+import {
+  Building,
+  Mail,
+  MessageCircle,
+  Instagram,
+  Twitter,
+  ArrowUp,
+} from "lucide-react";
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -7,9 +14,17 @@ const Footer = () => {
   };
 
   const socialLinks = [
-    { icon: Linkedin, href: "https://linkedin.com/in/adekolaadesijuola", name: "LinkedIn" },
-    { icon: Instagram, href: "https://instagram.com/adekolaadesijuola", name: "Instagram" },
-    { icon: Twitter, href: "https://twitter.com/adekolaadesijuola", name: "Twitter" },
+    {
+      icon: MessageCircle,
+      href: "https://wa.me/2348028433446?text=Hello%20Adekola,%20I%20would%20like%20to%20discuss%20a%20potential%20architectural%20project%20with%20you.",
+      name: "WhatsApp",
+    },
+    {
+      icon: Instagram,
+      href: "https://www.instagram.com/_its_sij",
+      name: "Instagram",
+    },
+    { icon: Twitter, href: "https://x.com/sij__u_", name: "Twitter" },
     { icon: Mail, href: "mailto:adesijuolaadekola17@gmail.com", name: "Email" },
   ];
 
@@ -17,7 +32,6 @@ const Footer = () => {
     <footer className="border-t border-gray-200 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col items-center justify-center text-center space-y-6">
-          
           {/* Logo/Name */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -29,7 +43,9 @@ const Footer = () => {
             <div className="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center">
               <Building className="w-4 h-4 text-white" />
             </div>
-            <span className="text-lg font-semibold text-gray-900">Adekola Adesijuola</span>
+            <span className="text-lg font-semibold text-gray-900">
+              Adekola Adesijuola
+            </span>
           </motion.div>
 
           {/* Social Links */}
@@ -44,7 +60,7 @@ const Footer = () => {
               <motion.a
                 key={index}
                 href={social.href}
-                target={social.href.startsWith('mailto:') ? '_self' : '_blank'}
+                target={social.href.startsWith("mailto:") ? "_self" : "_blank"}
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-800 hover:text-white transition-all duration-300"
                 whileHover={{ scale: 1.1, y: -2 }}
@@ -66,7 +82,7 @@ const Footer = () => {
             <p className="text-gray-600 text-sm">
               © 2025 Adekola Adesijuola. All rights reserved.
             </p>
-            
+
             <motion.button
               onClick={scrollToTop}
               className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors text-sm group"
@@ -76,7 +92,6 @@ const Footer = () => {
               <ArrowUp className="w-4 h-4 group-hover:translate-y-[-2px] transition-transform" />
             </motion.button>
           </motion.div>
-
         </div>
       </div>
     </footer>
